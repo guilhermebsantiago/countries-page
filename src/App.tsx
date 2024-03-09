@@ -1,12 +1,14 @@
-import CountrySection from "./components/CountrySection"
-import Header from "./components/Header"
-
+import { Route, Routes } from "react-router-dom"
+import { HomePage } from "./pages/HomePage"
+import { CountryPage } from "./pages/CountryPage"
 function App() {
 
   return (
     <>
-      <Header/>
-      <CountrySection/>
+      <Routes>
+        <Route path="/" element={<HomePage/>}/>
+        <Route path="/country/:countryName" element={<CountryPage/>}/>
+      </Routes>
     </>
   )
 }

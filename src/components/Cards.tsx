@@ -1,6 +1,7 @@
 import axios from "axios";
 import Card from "./Card";
 import { useQuery } from "@tanstack/react-query";
+import { Error } from "./Error";
 
 interface Data {
   flags: {
@@ -28,7 +29,7 @@ interface Data {
 }
 
 function Cards() {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["cardsQuery"],
     queryFn: async () => {
       const { data } = await axios.get(
@@ -40,6 +41,7 @@ function Cards() {
 
   return (
     <div className=" flex flex-wrap gap-12 justify-between w-full py-12 md:px-20 px-5 h-full ">
+      {error?<Error/>:null}
       {isLoading
         ? <div className="h-screen flex justify-center w-full">
           <p className="font-bold">Data is loading...</p>
