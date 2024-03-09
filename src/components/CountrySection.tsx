@@ -1,4 +1,5 @@
 import { IoSearchOutline } from "react-icons/io5";
+import Cards from "./Cards";
 
 function CountrySection() {
   return (
@@ -19,6 +20,8 @@ function CountrySection() {
             <option value="Oceania">Oceania</option></select>
         </div>
       </div>
+
+      <Cards/>
 
     </div>
   )
