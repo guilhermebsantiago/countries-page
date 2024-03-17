@@ -46,7 +46,8 @@ function Cards() {
         ? <div className="h-screen flex justify-center w-full">
           <p className="font-bold">Data is loading...</p>
         </div>
-        : data?.map((e, index) => (
+        : 
+        <div className="w-full flex flex-wrap gap-16 px-5 md:px-0 justify-between">{data?.map((e, index) => (
           <Card
             capital={e.capital}
             country={e.name.common}
@@ -55,7 +56,8 @@ function Cards() {
             region={e.region}
             key={index}
           />
-        ))}
+        ))}</div>
+        }
     </div>
   );
 }

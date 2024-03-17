@@ -11,9 +11,9 @@ interface ICardProps {
 
 function Card({ src, population, region, capital, country }: ICardProps) {
   return (
-    <Link to={`/country/${country}`}>
+    <Link to={`/country/${country}`} className="w-full md:w-1/5">
       <div
-        className="w-1/5 h-80 bg-white flex flex-col rounded-md dark:bg-dark-blue"
+        className="w-full h-80 bg-white flex flex-col rounded-md dark:bg-dark-blue"
       >
         <img
           src={src}
