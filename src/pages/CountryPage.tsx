@@ -17,7 +17,7 @@ export const CountryPage = () => {
       common: string;
       official?: string;
       nativeName: {
-        [key:string]: {
+        [key: string]: {
           official: string;
           common: string;
         };
@@ -48,41 +48,45 @@ export const CountryPage = () => {
       const { data } = await axios.get(
         `https://restcountries.com/v3.1/name/${countryName}?fields=name,flags,population,region,subregion,capital,tld,currencies,languages,borders`
       );
-      console.log(data);
       return data as Data[];
     },
   });
 
+  if (error) return <Error />;
+
+  if (isLoading)
+    return (
+      <div className="h-screen flex justify-center w-full">
+        <p className="font-bold dark:text-white text-very-dark-blue-light-text">
+          Data is loading...
+        </p>
+      </div>
+    );
+
+  if (!data) return <div>Content don't avaiable!</div>;
+
   return (
     <>
-      {error ? <Error /> : null}
-      {isLoading ? (
-        <div className="h-screen flex justify-center w-full">
-          <p className="font-bold dark:text-white text-very-dark-blue-light-text">Data is loading...</p>
+      <div className="h-screen w-screen">
+        <Header />
+        <div className="px-5 md:px-20 pt-10 pb-20  dark:bg-very-dark-blue bg-very-light-gray">
+          <Link
+            to={"/"}
+            className="flex gap-3 cursor-pointer px-4 py-2 shadow-full w-28 justify-center items-center h-10 rounded-md  dark:text-white dark:bg-dark-blue bg-white text-very-dark-blue-light-text"
+          >
+            <FaArrowLeftLong /> Back
+          </Link>
         </div>
-      ) : (
-        <div className="h-screen w-screen">
-          <Header />
-          <div className="px-5 md:px-20 pt-10 pb-20  dark:bg-very-dark-blue bg-very-light-gray">
-            <Link
-              to={"/"}
-              className="flex gap-3 cursor-pointer px-4 py-2 shadow-full w-28 justify-center items-center h-10 rounded-md  dark:text-white dark:bg-dark-blue bg-white text-very-dark-blue-light-text"
-            >
-              <FaArrowLeftLong /> Back
-            </Link>
-          </div>
-          
-          <div className="w-full flex h-full items-start flex-col md:flex-row px-5 md:px-20  dark:bg-very-dark-blue bg-very-light-gray md:justify-between">
-            
-            <img
-              src={data[0]?.flags.svg}
-              alt={data[0]?.flags.alt}
-              className="w-full max-h-[450px] md:w-5/12 "
-            />
-            <div className="flex flex-col md:w-1/2">
-              
-                <div className="flex flex-col md:flex-row">
-                  <div className="md:pr-12">
+
+        <div className="w-full flex h-full items-start flex-col md:flex-row px-5 md:px-20  dark:bg-very-dark-blue bg-very-light-gray md:justify-between">
+          <img
+            src={data[0]?.flags.svg}
+            alt={data[0]?.flags.alt}
+            className="w-full max-h-[450px] md:w-5/12 "
+          />
+          <div className="flex flex-col md:w-1/2">
+            <div className="flex flex-col md:flex-row">
+              <div className="md:pr-12">
                 <p className="font-extrabold dark:text-white text-very-dark-blue text-2xl max-sm:pt-10 pb-6 md:pb-6">
                   {data[0]?.name.common}
                 </p>
@@ -131,16 +135,26 @@ export const CountryPage = () => {
                   })}
                 </p>
               </div>
+            </div>
+            <div className="dark:text-white  text-very-dark-blue pt-14  flex gap-4 flex-col md:flex-row ">
+              <span className="font-bold text-lg w-60">Border Countries:</span>{" "}
+              <div className="flex w-full gap-2 justify-around flex-wrap">
+                {data[0]?.borders.map((e, i) => (
+                  <div
+                    key={i}
+                    className="w-1/4 h-8 shadow-full flex rounded-md justify-center py-1 px-6 bg-white dark:bg-dark-blue text-very-dark-blue-light-text dark:text-white"
+                  >
+                    {e}
                   </div>
-              <div className="dark:text-white  text-very-dark-blue pt-14  flex gap-4 flex-col md:flex-row ">
-                <span className="font-bold text-lg w-60">Border Countries:</span>{" "}
-                <div className="flex w-full gap-2 justify-around flex-wrap">{data[0]?.borders.map((e,i)=>(<div key={i} className="w-1/4 h-8 shadow-full flex rounded-md justify-center py-1 px-6 bg-white dark:bg-dark-blue text-very-dark-blue-light-text dark:text-white">{e}</div>))} {data[0]?.borders.length == 0 ? <p className="italic">Any countries</p>:null}</div>
-                
+                ))}{" "}
+                {data[0]?.borders.length == 0 ? (
+                  <p className="italic">Any countries</p>
+                ) : null}
               </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

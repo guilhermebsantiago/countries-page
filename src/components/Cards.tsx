@@ -3,6 +3,7 @@ import Card from "./Card";
 import { useQuery } from "@tanstack/react-query";
 import { Error } from "./Error";
 
+
 interface Data {
   flags: {
     png: string;
@@ -28,17 +29,20 @@ interface Data {
   population: number;
 }
 
-function Cards() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["cardsQuery"],
+function Cards({query, region}:{query: string,region:string}) {
+
+
+  const { data, isLoading, error } = useQuery<Data[]>({
+    queryKey: ["cardsQuery", region],
     queryFn: async () => {
-      const { data } = await axios.get(
-        "https://restcountries.com/v3.1/all?fields=name,flags,population,region,capital"
-      );
-      return data as Data[];
+
+    const endpoint = region ? `https://restcountries.com/v3.1/region/${region}` : 'https://restcountries.com/v3.1/all';
+    const { data } = await axios.get(`${endpoint}?fields=name,flags,population,region,capital`);
+    return data ;
     },
   });
 
+    
   return (
     <div className=" flex flex-wrap gap-12 justify-between w-full py-12 md:px-20 px-5 h-full ">
       {error?<Error/>:null}
@@ -47,7 +51,7 @@ function Cards() {
           <p className="font-bold">Data is loading...</p>
         </div>
         : 
-        <div className="w-full flex flex-wrap gap-16 px-5 md:px-0 justify-between">{data?.map((e, index) => (
+        <div className="w-full flex flex-wrap gap-16 px-5 md:px-0 justify-between">{data?.filter(item=>(query === '' ? true : item.name.official.toLowerCase().includes(query.toLowerCase()))).map((e, index) => (
           <Card
             capital={e.capital}
             country={e.name.common}
