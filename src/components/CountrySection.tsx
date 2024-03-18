@@ -3,10 +3,14 @@ import Cards from "./Cards";
 import { useState } from "react";
 import Header from "./Header";
 
+
 function CountrySection() {
 
   const [query, setQuery] = useState("")
   const [region, setRegion] = useState("")
+
+
+
 
   return (
     <div className="w-full min-h-screen bg-very-light-gray dark:bg-very-dark-blue">

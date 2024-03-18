@@ -2,6 +2,8 @@ import axios from "axios";
 import Card from "./Card";
 import { useQuery } from "@tanstack/react-query";
 import { Error } from "./Error";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 
 interface Data {
@@ -31,6 +33,19 @@ interface Data {
 
 function Cards({query, region}:{query: string,region:string}) {
 
+  useGSAP(()=>{
+
+
+    gsap.timeline().fromTo(".card", {
+      y:500, 
+      opacity:0,
+      stagger: 2,
+      delay:1
+    },{
+      y:0,
+      opacity:1
+    })
+  },[query, region])
 
   const { data, isLoading, error } = useQuery<Data[]>({
     queryKey: ["cardsQuery", region],

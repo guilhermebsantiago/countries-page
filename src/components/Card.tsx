@@ -9,9 +9,11 @@ interface ICardProps {
   country: string;
 }
 
+
 function Card({ src, population, region, capital, country }: ICardProps) {
+  
   return (
-    <Link to={`/country/${country}`} className="w-full md:w-1/5">
+    <Link to={`/country/${country}`} className="card w-full md:w-1/5">
       <div
         className="w-full h-80 bg-white flex flex-col rounded-md dark:bg-dark-blue"
       >
